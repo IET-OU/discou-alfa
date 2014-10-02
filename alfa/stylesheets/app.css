@@ -1,0 +1,203 @@
+
+
+/* -----------------------------------------
+   page background
+----------------------------------------- */
+body{
+	background-color : #fefefe;
+}
+/* -----------------------------------------
+   noUiSlider fix
+----------------------------------------- */
+.noUiSlider{
+	width : 200px;
+	border-color : #e6e6e6;
+}
+.noUi-midBar{
+	background-color : #2ba6cb;
+}
+.noUi-handle {
+	background-color : #f2f2f2;
+	border-color : #e6e6e6;
+}
+
+/* -----------------------------------------
+  Foundation .button.tiny.dropdown fix
+----------------------------------------- */
+.button.tiny.dropdown ul li{
+	font-size : 10px;
+	/*padding: 5px 10px 6px;*/
+	line-height : 1;
+}
+.button.tiny.dropdown ul li a{
+	font-size : 10px;
+	/*line-height : 1;*/
+}
+.button.tiny.dropdown ul{
+	margin-top : 7px;
+}
+
+/* -----------------------------------------
+  Foundation .alert-box fix 
+  (we want it to be the same as the button...)
+----------------------------------------- */
+div.alert-box {
+	padding : 10px 7px 11px;
+	margin-top : 5px;
+}
+#button-discover {
+	margin-bottom : 12px;
+	margin-top : 5px;
+}
+
+/* -----------------------------------------
+  IE fix 
+----------------------------------------- */
+.result-summary {
+	float : right;
+}
+
+
+/* -----------------------------------------
+  Media embedding 
+----------------------------------------- */
+audio{
+	margin-top : 20px;	
+}
+
+/* -----------------------------------------
+  also about actions
+----------------------------------------- */
+.also-about-actions li label{
+	font-size : 12px;
+	font-weight : bold;
+	margin-right: 5px;
+	margin-top: 3px;
+}
+.result-summary ul{
+	float : right;
+	margin-bottom : 0px;
+}
+
+.promoted{
+	background-color : #5da423;
+}
+.demoted{
+	background-color : #c60f13;
+}
+
+
+/* -----------------------------------------
+  result types templates
+----------------------------------------- */
+.result h5 {
+	line-height : 1em;
+}
+.result h5 .icon{
+	font-size : 4em;
+	float : left;
+	position : relative;
+	top : -18px;
+	left : -15px;
+	margin-bottom : -20px;
+	font-weight : bold;
+	color : #aaa;
+	/* color: #2ba6cb; */
+}
+.result .result-bottom {clear:left;}
+.result-audio {}
+.result-unit{}
+.result-article	{
+}
+
+/* -----------------------------------------
+  site heading
+----------------------------------------- */
+h1 {
+	color : #666;
+}
+h1 img{
+	height: 100px;
+}
+h1 .alpha{
+	font-family: Georgia, serif;
+	font-size: 0.5em;
+	font-weight : bold;
+	color: #2ba6cb;
+	letter-spacing: 1em;
+}
+
+/* -----------------------------------------
+  previews
+----------------------------------------- */
+.preview {
+	background-color: #666;
+	padding-left: 17%;
+}
+.preview-iframe-wrap { 
+	width: 362px; 
+	height: 369px; 
+	padding: 0; 
+	overflow: hidden; 
+	background-color : #666;
+	border: none;
+}
+.preview-iframe-wrap iframe { 
+	width: 3000px; 
+	height: 10000px; 
+	overflow-x: hidden;
+	overflow-y: hidden;
+	-moz-margin-start: -342px;
+	zoom: 0.35;
+	-ie-zoom : 0.35;
+	-moz-transform: scale(0.35); 
+	-moz-transform-origin: 0 0; 
+	-o-transform: scale(0.35);
+    -o-transform-origin: 0 0;
+    -webkit-transform: scale(0.35);
+    -webkit-transform-origin: 0 0;
+    position: relative;
+    z-index: 5;
+    border: none;
+}
+.preview-iframe-wrap .preview-iframe-cover {
+	display : block;
+	width : 3000px;
+	height : 10000px;
+	position : relative;
+	top : -10000px;
+	background-color: white;
+	filter: alpha(opacity=1);
+	background-color: rgba(255, 255, 255, 0);
+	z-index: 10;
+}
+.preview-iframe-wrap .preview-loading {
+	font-size: 5em;
+	position: relative;
+	left: 10%;
+	top: 10%;
+}
+/*
+.preview-iframe-wrap:before{
+	font-family:'FontAwesome';
+    content: "\f110";
+    width: 50%;
+    color: #ccc;
+    height: 100%;
+    font-size: 7.0em;
+    text-align: center;
+    line-height: 100%;
+    padding-top: 35%;
+    padding-left: 35%;
+
+    display:inline-block;
+    -moz-animation:spin 2s infinite linear;
+    -o-animation:spin 2s infinite linear;
+    -webkit-animation:spin 2s infinite linear;
+    animation:spin 2s infinite linear;
+}*/
+
+/* -----------------------------------------
+  initial setup
+----------------------------------------- */
+#results, #entities {display : none;}
