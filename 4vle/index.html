@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="icon" type="image/png" href="images/discou-favicon.png">
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+	
+	<title>DiscOU: Discover Open University Content from Other Resources</title>
+	<meta name="viewport" content="width=device-width" />
+	
+	<!-- libs -->
+	<link rel="stylesheet" type="text/css" href="stylesheets/foundation.min.css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/font-awesome.min.css">
+	<!--[if lt IE 8]>
+	<link rel="stylesheet" type="text/css" href="stylesheets/font-awesome-ie7.min.css" />
+	<![endif]-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="stylesheets/nouislider.css">
+	<script src="javascripts/jquery.nouislider.min.js"></script>
+	<script src="javascripts/jquery.textchange.min.js"></script>
+	<script src="javascripts/md5.js"></script>
+	<!-- IE Fix for HTML5 Tags -->
+	<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+	<!-- app -->
+	<link rel="stylesheet" type="text/css" href="stylesheets/app.css">
+	<script src="javascripts/app.js"></script>
+
+	<!-- templates -->
+	<script type="html/template" id="failure-message-template">
+		<div class="alert-box alert failure-message"></div>
+	</script>
+	<script type="html/template" id="info-message-template">
+		<div class="alert-box info-message"></div>
+	</script>
+	<script type="html/template" id="go-button-template">
+		<a class="button small go-button" target="_blank" href=""><i class="icon icon-external-link"></i>&nbsp;Go!</a>
+	</script>
+	<script type="html/template" id="result-template">
+		<div class="result panel">
+			<h5><a class="result-link"><span class="result-label"></span></a></h5>
+			<p class="result-description"></p>
+			<div class="row result-bottom">
+				<div class="result-locator three columns"></div>
+				<div class="result-summary columns"></div>
+			</div>
+		</div>
+	</script>
+	<script type="html/template" id="entity-template">
+		<li>
+			<div class="title"><h5><span class="entity-score label"></span>&nbsp;<span class="entity-label"></span></h5></div>
+			<div class="content entity-content"></div>
+		</li>
+	</script>
+	<!-- 
+	<script type="html/template" id="summary-template">
+		<div class="tiny button dropdown also-about-button">Also about: <span class="summary-link"></span>
+<ul class="no-hover">
+  <li><a href="#" class="promote-button"><i class="icon icon-plus"></i>&nbsp;Promote concept</a></li>
+  <li><a href="#" class="demote-button"><i class="icon icon-minus"></i>&nbsp;Demote concept</a></li>
+</ul>
+	</div>
+	</script>
+	 -->
+	<script type="html/template" id="actions-template">
+<ul class="button-group also-about-actions">
+  <li><label class="">Mainly about: <span class="summary-link"></span></label></li>
+  <li><a title="Promote concept &amp; refresh" href="#" class="success small button promote-button"><i class="icon icon-thumbs-up"></i></a></li>
+  <li><a title="Demote concept &amp; refresh" href="#" class="alert small button demote-button"><i class="icon icon-thumbs-down"></i></a></li>
+</ul>
+	</script>
+	
+	<script type="html/template" id="video-template">
+<video width="100%" height="312px" controls>
+	<source></source>
+ 	<embed src="#" width="100%" height="312px" bgcolor="BLACK" cache="true" style="background-color: #000" controller="true" pluginspage="http://www.apple.com/quicktime/download/" allowscriptaccess="always" allowfullscreen="true" autoplay="false">
+	</embed>
+</video>
+	</script>
+	<script type="html/template" id="audio-template">
+<audio controls>
+	<source></source>
+	<embed src="" pluginspage=""></embed>
+</audio>
+	</script>
+	<script type="html/template" id="preview-template">
+	<div class="preview">
+	<div class="preview-iframe-wrap">
+		<iframe wmode="transparent" src=""></iframe>
+		<a class="preview-iframe-cover"></a>
+	</div>
+	</div>
+	</script>
+</head>
+<body>
+	<noscript>Unfortunately this site cannot be used in browsers that does not support javascript</noscript>
+	<div class="row">
+		<div class="twelve columns">
+			<h1 class="discou"><img src="images/discOU-logo.png"/><span class="alpha">4vle</span></h1>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="twelve columns">
+		
+			<div class="">
+			<textarea id="input-text" placeholder="Paste some text here" rows="5"></textarea>
+			</div>
+			<!-- <p><label for="input-uri">Paste a URI:</label> <input type="text" name="uri" id="input-uri" value="http://www.bbc.co.uk/programmes/b01qylw1"/> </p>
+			 -->
+		</div>
+	</div>
+	<div class="row">
+		<div class="four columns">
+			<button class="button" id="button-discover"><i class="icon icon-search"></i>&nbsp;Discover!</button>
+		</div>
+		<div id="messages" class="eight columns"></div>
+	</div>
+	<div class="row">
+		<div class="four columns" id="entities"></div>
+		<div class="eight columns" id="results"></div>
+	</div>
+	
+</body>
+</html>
