@@ -110,10 +110,17 @@
 	};
 	
 	DISCOU.cacheInput = (function(action){
+		var uiId = $('meta[name=discou_ui_id]');
+		if(!uiId){
+			uiId = 'discou-default';
+		}else{
+			uiId = uiId.attr('content')
+		}
+		// console.log('uiId', uiId)
 		if(action == "save"){
-			DISCOU.cookies.create("discou-alfa-input-text", $("textarea").val());
+			DISCOU.cookies.create("discou-" + uiId + "-input-text", $("textarea").val());
 		}else if(action == "restore"){
-			$("textarea").val(DISCOU.cookies.read("discou-alfa-input-text"));
+			$("textarea").val(DISCOU.cookies.read("discou-" + uiId + "-input-text"));
 		}
 	});
 	
@@ -320,6 +327,7 @@
 						}
 					}}, context : $("#res_" + x)})
 					.fail(function(ojk){
+						console.log("failed", ojk)
 						// TODO
 					})
 					.success(function(responseText2){
@@ -386,8 +394,8 @@
 								case "http://www.w3.org/TR/2010/WD-mediaont-10-20100608/locator":
 								case "http://xmlns.com/foaf/0.1/page":
 									className = "locator";
-									htmlValue = DISCOU.template("go-button")
-										.attr("href", value);
+									htmlValue = DISCOU.template("go-button");
+									htmlValue.find('.go-button').attr("href", value);
 									$(context).attr("data-locator", value);
 									$(context).find(".result-link").attr("href", value);
 									break;
@@ -449,10 +457,11 @@
 						
 						// if article, preview (unfortunately units cannot be embedded in frames)
 						if($(context).hasClass("result-article") && ( !$(context).hasClass("result-unit") )){
-							var link = $(context).find("h5 a");
+							var link = $(context).find(".preview-button");
 							link.attr("data-result-id", $(context).attr("id"));
-							$(context).find("h5 a").hover(function(){
-								// in
+							link.attr("data-preview-status", "off")
+							link.click(function(){
+								var st = link.attr("data-preview-status")
 								var i = $(this).attr("data-result-id");
 								var o = $("#" + i);
 								var p = o.find(".preview");
@@ -460,11 +469,14 @@
 									// build it
 									p = DISCOU.preview(o.attr("id"));
 								}
-								p.fadeIn();
-							});
-							$(context).hover(function(){},function(){
-								// out
-								$(this).find(".preview").fadeOut();
+								if(st == 'off'){
+									// in
+									p.fadeIn();
+									link.attr("data-preview-status", "on")
+								}else{
+									p.fadeOut();
+									link.attr("data-preview-status", "off")
+								}
 							});
 						}
 					});

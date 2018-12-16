@@ -11,7 +11,7 @@
 	
 	// configuration
 	DISCOU.services = {
-		entities : "/discou-services/entities2",
+		entities : "/discou-services/entities",
 		index : "/discou-services/index",
 		summary : "/discou-services/summary",
 		search : "/discou-services/search",
@@ -53,10 +53,13 @@
 		return entstring;
 	};
 	DISCOU.identify = function(input){
+		// console.log("identify", input)
 		input = input.toLowerCase().trim();
 		// input may be anything
 		var entstring = DISCOU.entstring();
+		// console.log("entstring", entstring)
 		var uri = "urn:discou:input:" + md5( input + entstring );
+		// console.log("uri", uri)
 		return uri;
 	};
 	DISCOU.entsort = (function(entities){
@@ -110,10 +113,17 @@
 	};
 	
 	DISCOU.cacheInput = (function(action){
+		var uiId = $('meta[name=discou_ui_id]');
+		if(!uiId){
+			uiId = 'discou-default';
+		}else{
+			uiId = uiId.attr('content')
+		}
+		// console.log('uiId', uiId)	
 		if(action == "save"){
-			DISCOU.cookies.create("discou-alfa-input-text", $("textarea").val());
+			DISCOU.cookies.create("discou-" + uiId + "-input-text", $("textarea").val());
 		}else if(action == "restore"){
-			$("textarea").val(DISCOU.cookies.read("discou-alfa-input-text"));
+			$("textarea").val(DISCOU.cookies.read("discou-" + uiId + "-input-text"));
 		}
 	});
 	
@@ -134,7 +144,9 @@
 	DISCOU.behaviour = {
 		lastInput : null,
 		renderEntities : (function(entities){
+			// console.log("renderEntities", entities);
 			tuples = DISCOU.entsort(entities);
+			// console.log("entsort", tuples);
 		    // populate the list of entities
 		    var panel = $("<ul></ul>").addClass("accordion");
 		    var entityIndex = 0;
@@ -255,7 +267,9 @@
 				DISCOU.message("failure","Request failed: search :(");
 			})
 			.success(function(responseText){
-				var json = eval("(" + responseText + ")");
+				// console.log("responseText", responseText)
+				// var json = eval("(" + responseText + ")");
+				var json = eval( responseText );
 				
 				// this is a json array. if it is empty show a message
 				if(json.length == 0){
@@ -311,7 +325,7 @@
 					});
 					
 					$.ajax(DISCOU.services.describe, {dataType: "xml", data : {"uri" : resuri, "endpoint" : function(){ 
-						return resuri.match("/videofinder/") ? "http://sdata.kmi.open.ac.uk/videofinder/query" : "http://data.open.ac.uk/sparql";
+						return resuri.match("/videofinder/") ? "http://data.open.ac.uk/sparql" : "http://data.open.ac.uk/sparql";
 					}}, context : $("#res_" + x)})
 					.fail(function(ojk){
 						// TODO
@@ -366,21 +380,31 @@
 								case "http://purl.org/dc/terms/description":
 									className = "description";
 									break;
+								case "http://data.open.ac.uk/ontology/relatesToCourse":
+									className = "course";
+									pValue = $(context).find(".relates-to-course");
+									pValue.show()
+									rValue = $(context).find(".result-course");
+									rValue.attr('href', value)
+									break;
 								case "http://purl.org/dc/terms/title":
 								case "http://www.w3.org/2000/01/rdf-schema#label":
 									className = "label";
 									break;
 								case "http://www.w3.org/TR/2010/WD-mediaont-10-20100608/locator":
 									className = "locator";
-									htmlValue = DISCOU.template("go-button")
-										.attr("href", value);
+									htmlValue = DISCOU.template("go-button");
+									htmlValue.find('.go-button').attr("href", value);
 									$(context).attr("data-locator", value);
 									$(context).find(".result-link").attr("href", value);
 									break;
 							}
-	
+							function sleep(ms) {
+							  return new Promise(resolve => setTimeout(resolve, ms));
+							}
 							var propertyElement = $(context).find(".result-" + className);
-							if(propertyElement.html().length < htmlValue.length){
+							// console.log(property, propertyElement)
+							if(className && propertyElement.html().length < htmlValue.length){
 								propertyElement.attr("data-result-property", property);
 								propertyElement.attr("data-result-value", value);
 								propertyElement.html(htmlValue);
@@ -434,11 +458,13 @@
 						}
 						
 						// if article, preview (unfortunately units cannot be embedded in frames)
-						if($(context).hasClass("result-article") && ( !$(context).hasClass("result-unit") )){
-							var link = $(context).find("h5 a");
+						//  && ( !$(context).hasClass("result-unit") 
+						if($(context).hasClass("result-article") && ( !$(context).hasClass("result-video") )){
+							var link = $(context).find(".preview-button");
 							link.attr("data-result-id", $(context).attr("id"));
-							$(context).find("h5 a").hover(function(){
-								// in
+							link.attr("data-preview-status", "off")
+							link.click(function(){
+								var st = link.attr("data-preview-status")
 								var i = $(this).attr("data-result-id");
 								var o = $("#" + i);
 								var p = o.find(".preview");
@@ -446,12 +472,17 @@
 									// build it
 									p = DISCOU.preview(o.attr("id"));
 								}
-								p.fadeIn();
+								if(st == 'off'){
+									// in
+									p.fadeIn();
+									link.attr("data-preview-status", "on")
+								}else{
+									p.fadeOut();
+									link.attr("data-preview-status", "off")
+								}
 							});
-							$(context).hover(function(){},function(){
-								// out
-								$(this).find(".preview").fadeOut();
-							});
+							//link.click();
+							
 						}
 					});
 				}
@@ -516,7 +547,6 @@
 })();
 // register to run when page is ready
 $(document).ready(function(){
-	
 	// TODO Include here check for browser's capabilities...
 	DISCOU.behaviour.init();
 	DISCOU.cacheInput("restore");

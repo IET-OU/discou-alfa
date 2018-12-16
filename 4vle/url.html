@@ -9,7 +9,8 @@
 	
 	<title>DiscOU: Discover Open University Content from Other Resources</title>
 	<meta name="viewport" content="width=device-width" />
-	<meta name="discou_ui_id" content="alfa-text" />
+	<meta name="discou_ui_id" content="4vle-url" />
+	
 	<!-- libs -->
 	<link rel="stylesheet" type="text/css" href="stylesheets/foundation.min.css">
 	<link rel="stylesheet" type="text/css" href="stylesheets/font-awesome.min.css">
@@ -104,23 +105,23 @@
 	<noscript>Unfortunately this site cannot be used in browsers that does not support javascript</noscript>
 	<div class="row">
 		<div class="twelve columns">
-			<h1 class="discou"><img src="images/discOU-logo.png"/><span class="alpha">alfa</span></h1>
+			<h1 class="discou"><img src="images/discOU-logo.png"/><span class="alpha">4vle</span></h1>
 		</div>
 	</div>
 	
 	<div class="row">
 		<div class="twelve columns">
 		
-			<div class="">
-			<textarea id="input-text" placeholder="Paste some text here" rows="5"></textarea>
+			<div class="" style="display:none">
+			<textarea id="input-text" placeholder="Type a URL here" rows="1"></textarea>
 			</div>
-			<!-- <p><label for="input-uri">Paste a URI:</label> <input type="text" name="uri" id="input-uri" value="http://www.bbc.co.uk/programmes/b01qylw1"/> </p>
-			 -->
+			<p><label for="input-uri">Paste a URI:</label> <input type="text" name="uri" id="input-uri" value=""/> </p>
 		</div>
 	</div>
 	<div class="row">
 		<div class="four columns">
-			<button class="button" id="button-discover"><i class="icon icon-search"></i>&nbsp;Discover!</button>
+			<button class="button" id="button-discover-url"><i class="icon icon-search"></i>&nbsp;Load!</button>
+			<button style="display:none" class="button" id="button-discover"><i class="icon icon-search"></i>&nbsp;Discover!</button>
 		</div>
 		<div id="messages" class="eight columns"></div>
 	</div>
@@ -128,6 +129,36 @@
 		<div class="four columns" id="entities"></div>
 		<div class="eight columns" id="results"></div>
 	</div>
-	
+	<br/>	<br/>	<br/>
+	<div class="row">
+				<div class="four columns">
+		Bookmark: <a href="javascript:(function(){var uri=window.location.href;window.location.href='http://localhost:8001/ui/url.html?url='+uri;})()">4VLE</a>
+	</div>
+	</div>
+<script>
+	$(document).ready(function(){
+		function getURLParameter(name) {
+		  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+		}
+		var currentUri = getURLParameter('url');
+		if(currentUri){
+			$("#input-uri").val(currentUri)
+		}
+		$('#button-discover-url').click(function(){
+			var url = $("#input-uri").val();
+			$.get('/discou-services/totext?uri=' + encodeURIComponent(url) , function(data){
+				var from = (data.length/2)-1000;
+				if(from < 0){ from = 0; }
+				var to = (data.length/2)+1000;
+				if(to > data.length){ to = data.length; }
+				$("#input-text").val(data.substring(from, to));
+				$("#button-discover").click();
+			});
+		})
+		if(currentUri){
+			$('#button-discover-url').click();
+		}
+	});
+</script>
 </body>
 </html>

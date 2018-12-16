@@ -9,7 +9,8 @@
 	
 	<title>DiscOU: Discover Open University Content from Other Resources</title>
 	<meta name="viewport" content="width=device-width" />
-	
+	<meta name="discou_ui_id" content="4vle-text" />
+		
 	<!-- libs -->
 	<link rel="stylesheet" type="text/css" href="stylesheets/foundation.min.css">
 	<link rel="stylesheet" type="text/css" href="stylesheets/font-awesome.min.css">
@@ -38,7 +39,10 @@
 		<div class="alert-box info-message"></div>
 	</script>
 	<script type="html/template" id="go-button-template">
-		<a class="button small go-button" target="_blank" href=""><i class="icon icon-external-link"></i>&nbsp;Go!</a>
+		<ul class="button-group" style="width: 200px">
+		  <li><a class="button small preview-button"><i class="icon icon-eye-open"></i></a></li>
+		<li><a class="button small go-button" target="_blank" href=""><i class="icon icon-external-link"></i>&nbsp;Go!</a></li>
+		</ul>
 	</script>
 	<script type="html/template" id="result-template">
 		<div class="result panel">
